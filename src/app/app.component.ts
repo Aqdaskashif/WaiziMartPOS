@@ -33,7 +33,7 @@ export class AppComponent implements OnDestroy {
         (result, error) => {
           if (result) {
             this.scanResult = result.getText();
-            console.log('Scanned:', this.scanResult);
+            alert(`Scanned:${this.scanResult}`);
           }
         }
       );
@@ -41,6 +41,7 @@ export class AppComponent implements OnDestroy {
       this.isScanning = true;
     } catch (err) {
       this.scanResult = 'Camera error: ' + (err as any).message;
+      alert(`Scanned:${this.scanResult}`);
     }
   }
 
