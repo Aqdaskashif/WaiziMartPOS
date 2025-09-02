@@ -29,7 +29,9 @@
   h1{
     display: inline-block;  
     color: #0e383f;
-    letter-spacing: 15px;
+    letter-spacing: 30px;
+    font-family: Monaco;
+    font-size: 30px;
     border-bottom: 2px dashed #0e383f;
   }
   .container1 {
