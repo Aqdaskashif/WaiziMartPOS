@@ -1,59 +1,44 @@
-import { Component, OnDestroy } from '@angular/core';
-import { BrowserMultiFormatReader, IScannerControls } from '@zxing/browser';
+import {Component} from '@angular/core';
+import {
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {ErrorStateMatcher} from '@angular/material/core';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { AuthService } from '../assets/auth.service';
 
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  standalone:false,
 })
-export class AppComponent implements OnDestroy {
-  title = 'WaiziMartPOS';
-  private codeReader = new BrowserMultiFormatReader();
-  private controls: IScannerControls | null = null;
+export class AppComponent {
+  constructor(private authService:AuthService){
 
-  scanResult: string | null = null;
-  isScanning: boolean = false;
-
-  async startScan() {
-    try {
-      // ✅ call static method here
-      const devices = await BrowserMultiFormatReader.listVideoInputDevices();
-
-      if (devices.length === 0) {
-        this.scanResult = 'No camera found';
-        return;
-      }
-
-      const backCamera = devices.find(d => /back|rear|environment/i.test(d.label));
-      const selectedDeviceId = backCamera ? backCamera.deviceId : devices[0].deviceId;
-
-      this.controls = await this.codeReader.decodeFromVideoDevice(
-        selectedDeviceId,
-        'video',
-        (result, error) => {
-          if (result) {
-            this.scanResult = result.getText();
-            alert(`Scanned:${this.scanResult}`);
-          }
-        }
-      );
-
-      this.isScanning = true;
-    } catch (err) {
-      this.scanResult = 'Camera error: ' + (err as any).message;
-      alert(`Scanned:${this.scanResult}`);
-    }
   }
+  emailFormControl:any = new FormControl('', [Validators.required, Validators.email]);
+  passwordFormControl:any = new FormControl('', [Validators.required]);
 
-  stopScan() {
-    if (this.controls) {
-      this.controls.stop();
-      this.controls = null;
-    }
-    this.isScanning = false;
-  }
-
-  ngOnDestroy(): void {
-    this.stopScan();
+  matcher = new MyErrorStateMatcher();
+  getValues() {
+    console.log(this.emailFormControl.value);
+    this.authService.login(this.emailFormControl.value, this.passwordFormControl.value)
+      .then(() => console.log('Item added'))
+      
+      .catch(err => alert(err.message));
   }
 }
