@@ -1,8 +1,9 @@
 .spacer {
     display: flex;
     justify-content: space-between;
-    font-family: cursive;
-    color:#0e383f
+    font-family: monospace;
+    color: #0e383f;
+    font-weight: bold;
   }
   .container {
     display: flex;
