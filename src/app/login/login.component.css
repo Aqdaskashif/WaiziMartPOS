@@ -1,0 +1,39 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+    padding: 10px;
+  }
+  .container {
+    display: flex;
+    justify-content: center; /* horizontal */
+    align-items: center;     /* vertical */
+    height: 80vh;           /* full viewport height */
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  ::ng-deep .mat-mdc-form-field .mdc-text-field--filled {
+    background-color: #0e383f !important; 
+    border-radius: 8px;
+  }
+ ::ng-deep .mat-mdc-form-field .mdc-text-field--filled {
+    color: white !important;
+  }
+  button{
+    color: #0e383f !important; 
+    border-radius: 8px;
+    background-color: white !important;
+  }
+  h1{
+    display: inline-block;  
+    color: #0e383f;
+    letter-spacing: 15px;
+    font-family: Monaco;
+    font-size: 30px;
+    border-bottom: 2px dashed #0e383f;
+  }
+  .container1 {
+    text-align: center;
+  }

@@ -1,0 +1,32 @@
+<div class="container">
+  
+    <form class="example-form">
+      <div class="container1">
+        <h1>WAIZI</h1> &nbsp;&nbsp;<h1> MINI</h1> <br>
+        <h1>MART</h1>
+      </div>
+      
+      <br><br><mat-form-field class="example-full-width">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+          placeholder="Ex. pat@example.com">
+        @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
+        <mat-error>Please enter a valid email address</mat-error>
+        }
+        @if (emailFormControl.hasError('required')) {
+        <mat-error>Email is <strong>required</strong></mat-error>
+        }
+      </mat-form-field><br><br>
+      <mat-form-field class="example-full-width">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput [formControl]="passwordFormControl" [errorStateMatcher]="matcher"
+          placeholder="Enter Password">
+        @if (emailFormControl.hasError('required')) {
+        <mat-error>Password is <strong>required</strong></mat-error>
+        }
+      </mat-form-field><br><br>
+      <button class="example-full-width" mat-raised-button color="primary" (click)="getValues()">Get Values</button>
+  
+    </form>
+  
+  </div>
