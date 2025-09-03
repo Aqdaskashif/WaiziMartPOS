@@ -95,7 +95,6 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 }
 
-/** Builds and returns a new User. */
 function createNewUser(id: number): UserData {
   const name =
     NAMES[Math.round(Math.random() * (NAMES.length - 1))] +

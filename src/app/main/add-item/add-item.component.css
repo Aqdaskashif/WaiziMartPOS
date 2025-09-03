@@ -28,26 +28,25 @@ table, mat-paginator {
     }
   }
   input[type=text], select {
-    width: 30%;
+    width: 80%;
     padding: 5px 20px;
     margin: 8px 0;
     display: inline-block;
   
-    border: none;                   /* remove all borders */
-    border-bottom: 2px solid #0e383f; /* keep only bottom border */
+    border: none;                   
+    border-bottom: 2px solid #0e383f; 
     box-sizing: border-box;
     background-color: transparent;
-  
-    /* smooth transition */
+
     transition: border-color 0.3s ease;
   }
   
   input[type=text]:focus, select:focus {
-    outline: none;                  /* remove default focus outline */
-    border-bottom: 2px solid #3f51b5; /* highlight bottom border on focus */
+    outline: none;                
+    border-bottom: 2px solid #3f51b5; 
   }
   .input-container {
-    display: -ms-flexbox; /* IE10 */
+    display: -ms-flexbox; 
     display: flex;
     width: 100%;
     margin-bottom: 15px;
@@ -57,6 +56,11 @@ table, mat-paginator {
         background: none;
         color: #0e383f;
         position: relative;
-        left: -20px;
-      
+        left: -25px;
   }
+.btn-outline-dark.btn-sm:hover {
+    background-color: #0e383f;  
+    color: white;               
+    border-color: #0e383f;      
+  }
+  
