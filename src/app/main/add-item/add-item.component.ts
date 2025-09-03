@@ -89,6 +89,10 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
+  openScanner() {
+    alert("Scanner icon clicked!");
+    // your scanner logic here
+  }
 }
 
 /** Builds and returns a new User. */
@@ -105,4 +109,5 @@ function createNewUser(id: number): UserData {
     progress: Math.round(Math.random() * 100).toString(),
     fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
   };
+  
 }
