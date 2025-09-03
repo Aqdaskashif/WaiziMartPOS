@@ -13,7 +13,6 @@ table, mat-paginator {
 
   .container {
     display: inline-block;
-    align-items: center;     /* vertical */
     margin: 0 200px;
     
   }
@@ -22,4 +21,9 @@ table, mat-paginator {
     justify-content: space-between;
     color: #0e383f;
     font-weight: bold;
+  }
+  @media (max-width: 500px) {
+    .container {
+        margin: 0 10px;
+    }
   }
