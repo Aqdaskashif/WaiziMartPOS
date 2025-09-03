@@ -1,0 +1,25 @@
+table, mat-paginator {
+    background-color: transparent;
+  }
+  
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 50%;
+  }
+  
+  td, th {
+    width: 25%;
+  }
+
+  .container {
+    display: inline-block;
+    align-items: center;     /* vertical */
+    margin: 0 200px;
+    
+  }
+  .spacer {
+    display: flex;
+    justify-content: space-between;
+    color: #0e383f;
+    font-weight: bold;
+  }

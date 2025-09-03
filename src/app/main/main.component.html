@@ -4,13 +4,13 @@
             <span>Waizi Mini Mart</span>
             <span>{{ currentDate | date:'medium' }}</span>
         </div>
-        </mat-list-item>
+    </mat-list-item>
     <mat-divider></mat-divider>
 </mat-list>
 
-<div class="container" >
-    <div >
-        <div class="box">ADD ITEM</div>
-  <div class="box">CREATE BILL</div>
+<div class="container">
+    <div>
+        <div class="box" (click)="addItem()">ADD ITEM</div>
+        <div class="box">CREATE BILL</div>
     </div>
 </div>

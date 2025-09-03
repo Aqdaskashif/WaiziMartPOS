@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
+import { AuthService } from '../../assets/auth.service';
 @Component({
   selector: 'app-main',
   standalone: false,
@@ -7,6 +8,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
   styleUrl: './main.component.css'
 })
 export class MainComponent  implements OnInit, OnDestroy {
+  constructor(private router: Router, private authService: AuthService) { }
   currentDate: Date = new Date();
   private timer: any;
 
@@ -20,5 +22,8 @@ export class MainComponent  implements OnInit, OnDestroy {
     if (this.timer) {
       clearInterval(this.timer); // cleanup to prevent memory leak
     }
+  }
+  addItem(){
+    this.router.navigate(['/main/add-item'])
   }
 }
