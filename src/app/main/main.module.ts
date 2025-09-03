@@ -11,6 +11,8 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [
     MainComponent,
@@ -21,7 +23,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MainRoutingModule,
     MatDividerModule,
     MatListModule,
-    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule
+    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
+    MatFormFieldModule, MatInputModule, MatSelectModule,MatIconModule
   ]
 })
 export class MainModule { }
