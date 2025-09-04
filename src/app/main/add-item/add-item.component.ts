@@ -2,45 +2,16 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { ProductService } from '../../../assets/product.service';
+import { BrowserMultiFormatReader, IScannerControls } from '@zxing/browser';
+
 export interface UserData {
-  id: string;
+  barcode: string;
   name: string;
-  progress: string;
-  fruit: string;
+  price: string;
+  category: string;
 }
 
-/** Constants used to fill up our data base. */
-const FRUITS: string[] = [
-  'blueberry',
-  'lychee',
-  'kiwi',
-  'mango',
-  'peach',
-  'lime',
-  'pomegranate',
-  'pineapple',
-];
-const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
-];
 
 @Component({
   selector: 'app-add-item',
@@ -49,8 +20,16 @@ const NAMES: string[] = [
   styleUrl: './add-item.component.css'
 })
 export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
-  displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
-  dataSource: MatTableDataSource<UserData>;
+  constructor(private productService: ProductService) { }
+  private codeReader = new BrowserMultiFormatReader();
+  private controls: IScannerControls | null = null;
+
+  scanResult: string | null = null;
+  isScanning: boolean = false;
+  displayedColumns: string[] = ['barcode', 'name', 'price', 'category'];
+  dataSource: MatTableDataSource<UserData> = new MatTableDataSource<UserData>([]);
+
+  product = { barcode: '', name: '', price: '', category: '' };
 
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
   @ViewChild(MatSort) sort: MatSort | any;
@@ -60,53 +39,87 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
   ngOnInit() {
     this.timer = setInterval(() => {
       this.currentDate = new Date();
-    }, 1000); // updates every second
+    }, 1000);
+    this.getDB()
+    
   }
-
+  async getDB() {
+    const data=await this.productService.getAllProducts()
+    this.dataSource = new MatTableDataSource(data);
+  }
   ngOnDestroy() {
     if (this.timer) {
-      clearInterval(this.timer); // cleanup to prevent memory leak
+      clearInterval(this.timer);
     }
   }
-  constructor() {
-    // Create 100 users
-    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+  async saveProduct() {
+    const val=await this.productService.addProduct(this.product);
+    if(val){
+      this.getDB()
+
+    }
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource['paginator'] = this.paginator;
+    this.dataSource['sort'] = this.sort;
   }
-
+  searchText: any
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+    const filterValue:any =event;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-  openScanner() {
-    alert("Scanner icon clicked!");
-    // your scanner logic here
+
+
+
+  async openScanner() {
+    try {
+      // ✅ call static method here
+      const devices = await BrowserMultiFormatReader.listVideoInputDevices();
+
+      if (devices.length === 0) {
+        this.scanResult = 'No camera found';
+        return;
+      }
+
+      const backCamera = devices.find(d => /back|rear|environment/i.test(d.label));
+      const selectedDeviceId = backCamera ? backCamera.deviceId : devices[0].deviceId;
+
+      this.controls = await this.codeReader.decodeFromVideoDevice(
+        selectedDeviceId,
+        'video',
+        (result, error) => {
+          if (result) {
+            this.scanResult = result.getText();
+
+            if (this.controls &&  this.scanResult) {
+              this.product.barcode=this.scanResult
+              this.controls.stop();
+              this.controls = null;
+            }
+            this.isScanning = false;
+          }
+        }
+      );
+
+      this.isScanning = true;
+    } catch (err) {
+      this.scanResult = 'Camera error: ' + (err as any).message;
+    }
   }
+
+  stopScan() {
+    if (this.controls) {
+      this.controls.stop();
+      this.controls = null;
+    }
+    this.isScanning = false;
+  }
+
 }
 
-function createNewUser(id: number): UserData {
-  const name =
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-    ' ' +
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-    '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
-  };
-  
-}
