@@ -41,8 +41,8 @@ export class ProductService {
   }
 
   // ✅ Get all products
-  async getAllProducts(): Promise<any[]> {
-    const querySnapshot = await getDocs(collection(this.firestore, 'products'));
+  async getAllProducts(type:any): Promise<any[]> {
+    const querySnapshot = await getDocs(collection(this.firestore, type));
     debugger
     const data= querySnapshot.docs.map(doc => doc.data());
     return data

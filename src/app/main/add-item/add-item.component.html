@@ -42,9 +42,7 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
                 <td mat-cell *matCellDef="let row">
                     <select [(ngModel)]="row.category" disabled style="border: none;appearance: none;">
-                        <option value="confectionery">Grocery</option>
-                        <option value="electronics">Electronics</option>
-                        <option value="clothes">Clothes</option>
+                        <option *ngFor="let cat of category" [value]="cat.code">{{ cat.desc }}</option>
                     </select>
                 </td>
             </ng-container>
@@ -75,14 +73,12 @@
 
                     <input class="input-field" type="text" placeholder="Name" name="name" [(ngModel)]="product.name"
                         required>
-                    <input class="input-field" type="number" placeholder="Price" name="price"
+                    <input class="input-field" type="text" placeholder="Price" name="price"
                         [(ngModel)]="product.price" required>
 
                     <select id="category" name="category" [(ngModel)]="product.category" required>
                         <option value="" disabled selected>Select Category</option>
-                        <option value="Australia">Australia</option>
-                        <option value="Canada">Canada</option>
-                        <option value="USA">USA</option>
+                        <option *ngFor="let cat of category" [value]="cat.code">{{ cat.desc }}</option>
                     </select>
                 </form>
             </div>

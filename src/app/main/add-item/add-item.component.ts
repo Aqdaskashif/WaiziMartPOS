@@ -41,11 +41,13 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
       this.currentDate = new Date();
     }, 1000);
     this.getDB()
-    
   }
+  category:any[]=[]
   async getDB() {
-    const data=await this.productService.getAllProducts()
+    const data=await this.productService.getAllProducts('product')
     this.dataSource = new MatTableDataSource(data);
+    const dataCategory=await this.productService.getAllProducts('category')
+    this.category=dataCategory
   }
   ngOnDestroy() {
     if (this.timer) {
