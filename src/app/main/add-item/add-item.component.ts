@@ -58,6 +58,11 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
     const val=await this.productService.addProduct(this.product);
     if(val){
       this.getDB()
+      if (this.controls &&  this.scanResult) {
+        this.controls.stop();
+        this.controls = null;
+      }
+      this.isScanning = false;
 
     }
   }
