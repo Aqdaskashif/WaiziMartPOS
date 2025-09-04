@@ -9,7 +9,7 @@ export interface UserData {
   barcode: string;
   name: string;
   price: string;
-  actions:any
+  actions: any
 }
 
 
@@ -25,8 +25,7 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
   private controls: IScannerControls | null = null;
 
   scanResult: string | null = null;
-  isScanning: boolean = false;
-  displayedColumns: string[] = ['barcode', 'name', 'price','actions'];
+  displayedColumns: string[] = ['barcode', 'name', 'price', 'actions'];
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource<UserData>([]);
 
   product = { barcode: '', name: '', price: '', category: '' };
@@ -63,8 +62,11 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
         this.controls.stop();
         this.controls = null;
       }
-      this.isScanning = false;
-
+      const modalElement = document.getElementById('close') as HTMLButtonElement;
+      if (modalElement) {
+        modalElement.click();
+        this.product = { barcode: '', name: '', price: '', category: '' };
+      }
     }
   }
 
@@ -86,7 +88,6 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
 
   async openScanner() {
     try {
-      // ✅ call static method here
       const devices = await BrowserMultiFormatReader.listVideoInputDevices();
 
       if (devices.length === 0) {
@@ -109,12 +110,12 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
               this.controls.stop();
               this.controls = null;
             }
-            this.isScanning = false;
+
           }
         }
       );
 
-      this.isScanning = true;
+
     } catch (err) {
       this.scanResult = 'Camera error: ' + (err as any).message;
     }
@@ -125,12 +126,12 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
       this.controls.stop();
       this.controls = null;
     }
-    this.isScanning = false;
+
   }
   editRow(row: any) {
     row.isEditing = true;
   }
-  cancelRow(row:any){
+  cancelRow(row: any) {
     row.isEditing = false;
   }
 
