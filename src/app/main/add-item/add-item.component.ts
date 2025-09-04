@@ -9,7 +9,6 @@ export interface UserData {
   barcode: string;
   name: string;
   price: string;
-  category: string;
 }
 
 
@@ -26,7 +25,7 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
 
   scanResult: string | null = null;
   isScanning: boolean = false;
-  displayedColumns: string[] = ['barcode', 'name', 'price', 'category'];
+  displayedColumns: string[] = ['barcode', 'name', 'price'];
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource<UserData>([]);
 
   product = { barcode: '', name: '', price: '', category: '' };

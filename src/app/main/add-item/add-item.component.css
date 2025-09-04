@@ -63,4 +63,15 @@ table, mat-paginator {
     color: white;               
     border-color: #0e383f;      
   }
+  .mat-column-barcode {
+    width: 250px;   /* barcode column */
+  }
+  
+  .mat-column-name {
+    width: 300px;   /* name column */
+  }
+  
+  .mat-column-price {
+    width: 120px;   /* price column */
+  }
   
