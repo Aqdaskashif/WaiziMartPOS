@@ -17,55 +17,56 @@
         <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Save New Record
         </button>
-        <table mat-table [dataSource]="dataSource" matSort>
+        <div class="table-container">
+            <table mat-table [dataSource]="dataSource" matSort>
 
-            <!-- Barcode Column -->
-            <ng-container matColumnDef="barcode">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> BarCode </th>
-                <td mat-cell *matCellDef="let row"> {{row.barcode}} </td>
-            </ng-container>
+                <!-- Barcode Column -->
+                <ng-container matColumnDef="barcode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> BarCode </th>
+                    <td mat-cell *matCellDef="let row"> {{row.barcode}} </td>
+                </ng-container>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                <td mat-cell *matCellDef="let row">
-                    <input class="input-field" type="text" *ngIf="row.isEditing" [(ngModel)]="row.name" />
-                    <span *ngIf="!row.isEditing">{{ row.name }}</span>
-                </td>
-            </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                    <td mat-cell *matCellDef="let row">
+                        <input class="input-field" type="text" *ngIf="row.isEditing" [(ngModel)]="row.name" />
+                        <span *ngIf="!row.isEditing">{{ row.name }}</span>
+                    </td>
+                </ng-container>
 
-            <!-- Price Column -->
-            <ng-container matColumnDef="price">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
-                <td mat-cell *matCellDef="let row">
-                    <input class="input-field" type="text" *ngIf="row.isEditing" [(ngModel)]="row.price" />
-                    <span *ngIf="!row.isEditing">Rs: {{ row.price }}</span>
-                </td>
-            </ng-container>
+                <!-- Price Column -->
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+                    <td mat-cell *matCellDef="let row">
+                        <input class="input-field" type="text" *ngIf="row.isEditing" [(ngModel)]="row.price" />
+                        <span *ngIf="!row.isEditing">Rs: {{ row.price }}</span>
+                    </td>
+                </ng-container>
 
-            <!-- Category Column -->
+                <!-- Category Column -->
 
 
-            <!-- Action Buttons Column -->
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef> Actions </th>
-                <td mat-cell *matCellDef="let row">
-                    <button class="btn btn-sm btn-outline-dark" color="primary" (click)="editRow(row)"
-                        *ngIf="!row.isEditing">Edit</button>
-                    <button class="btn btn-sm btn-outline-dark" color="accent" (click)="saveRow(row)"
-                        *ngIf="row.isEditing">Save</button>
-                    <button class="btn btn-sm btn-outline-dark" color="warn" (click)="deleteRow(row)"
-                        *ngIf="!row.isEditing">Delete</button>
-                    <button class="btn btn-sm btn-outline-dark" color="warn" (click)="cancelRow(row)"
-                        *ngIf="row.isEditing">Cancel</button>
-                </td>
-            </ng-container>
+                <!-- Action Buttons Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button class="btn btn-sm btn-outline-dark" color="primary" (click)="editRow(row)"
+                            *ngIf="!row.isEditing">Edit</button>
+                        <button class="btn btn-sm btn-outline-dark" color="accent" (click)="saveRow(row)"
+                            *ngIf="row.isEditing">Save</button>
+                        <button class="btn btn-sm btn-outline-dark" color="warn" (click)="deleteRow(row)"
+                            *ngIf="!row.isEditing">Delete</button>
+                        <button class="btn btn-sm btn-outline-dark" color="warn" (click)="cancelRow(row)"
+                            *ngIf="row.isEditing">Cancel</button>
+                    </td>
+                </ng-container>
 
-            <!-- Rows -->
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-
+                <!-- Rows -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
 
     </div>
 </div>
