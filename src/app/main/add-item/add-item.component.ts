@@ -9,6 +9,7 @@ export interface UserData {
   barcode: string;
   name: string;
   price: string;
+  actions:any
 }
 
 
@@ -25,7 +26,7 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
 
   scanResult: string | null = null;
   isScanning: boolean = false;
-  displayedColumns: string[] = ['barcode', 'name', 'price'];
+  displayedColumns: string[] = ['barcode', 'name', 'price','actions'];
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource<UserData>([]);
 
   product = { barcode: '', name: '', price: '', category: '' };
@@ -41,12 +42,12 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
     }, 1000);
     this.getDB()
   }
-  category:any[]=[]
+  category: any[] = []
   async getDB() {
-    const data=await this.productService.getAllProducts('products')
+    const data = await this.productService.getAllProducts('products')
     this.dataSource = new MatTableDataSource(data);
-    const dataCategory=await this.productService.getAllProducts('category')
-    this.category=dataCategory
+    const dataCategory = await this.productService.getAllProducts('category')
+    this.category = dataCategory
   }
   ngOnDestroy() {
     if (this.timer) {
@@ -55,10 +56,10 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   async saveProduct() {
-    const val=await this.productService.addProduct(this.product);
-    if(val){
+    const val = await this.productService.addProduct(this.product);
+    if (val) {
       this.getDB()
-      if (this.controls &&  this.scanResult) {
+      if (this.controls && this.scanResult) {
         this.controls.stop();
         this.controls = null;
       }
@@ -73,7 +74,7 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   searchText: any
   applyFilter(event: Event) {
-    const filterValue:any =event;
+    const filterValue: any = event;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
@@ -103,8 +104,8 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
           if (result) {
             this.scanResult = result.getText();
 
-            if (this.controls &&  this.scanResult) {
-              this.product.barcode=this.scanResult
+            if (this.controls && this.scanResult) {
+              this.product.barcode = this.scanResult
               this.controls.stop();
               this.controls = null;
             }
@@ -126,6 +127,25 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
     }
     this.isScanning = false;
   }
+  editRow(row: any) {
+    row.isEditing = true;
+  }
+  cancelRow(row:any){
+    row.isEditing = false;
+  }
 
+  async saveRow(row: any) {
+    row.isEditing = false;
+    await this.productService.updateProduct(row);
+    alert("Row updated!");
+  }
+
+  async deleteRow(row: any) {
+    if (confirm("Are you sure you want to delete this product?")) {
+      await this.productService.deleteProduct(row.barcode);
+      this.dataSource.data = this.dataSource.data.filter((p: any) => p.barcode !== row.barcode);
+      alert("Product deleted!");
+    }
+  }
 }
 

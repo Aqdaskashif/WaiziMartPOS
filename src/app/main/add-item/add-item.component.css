@@ -28,7 +28,6 @@ table, mat-paginator {
     }
   }
   input[type=text], select {
-    width: 80%;
     padding: 5px 20px;
     margin: 8px 0;
     display: inline-block;
@@ -48,7 +47,6 @@ table, mat-paginator {
   .input-container {
     display: -ms-flexbox; 
     display: flex;
-    width: 100%;
     margin-bottom: 15px;
   }
   mat-icon {
@@ -63,15 +61,17 @@ table, mat-paginator {
     color: white;               
     border-color: #0e383f;      
   }
-  .mat-column-barcode {
-    width: 250px;   /* barcode column */
+  table {
+    width: 100%;
+    table-layout: auto; /* allows columns to grow/shrink with content */
+    border-collapse: collapse;
   }
   
-  .mat-column-name {
-    width: 300px;   /* name column */
+  .mat-header-cell, .mat-cell {
+    white-space: nowrap;   /* prevents text from wrapping */
+    padding: 8px 16px;
   }
-  
-  .mat-column-price {
-    width: 120px;   /* price column */
+  .extra-width{
+    width: 100%;
   }
   
