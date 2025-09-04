@@ -44,7 +44,7 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   category:any[]=[]
   async getDB() {
-    const data=await this.productService.getAllProducts('product')
+    const data=await this.productService.getAllProducts('products')
     this.dataSource = new MatTableDataSource(data);
     const dataCategory=await this.productService.getAllProducts('category')
     this.category=dataCategory
