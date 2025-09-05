@@ -13,10 +13,13 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
+import {MatTabsModule} from '@angular/material/tabs';
+import { CreateBillComponent } from './create-bill/create-bill.component';
 @NgModule({
   declarations: [
     MainComponent,
-    AddItemComponent
+    AddItemComponent,
+    CreateBillComponent
   ],
   imports: [
     CommonModule,
@@ -24,6 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatDividerModule,
     MatListModule,
     FormsModule,
+    MatTabsModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
     MatFormFieldModule, MatInputModule, MatSelectModule,MatIconModule
   ]

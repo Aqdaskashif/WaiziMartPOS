@@ -23,7 +23,7 @@ export class MainComponent  implements OnInit, OnDestroy {
       clearInterval(this.timer); // cleanup to prevent memory leak
     }
   }
-  addItem(){
-    this.router.navigate(['/main/add-item'])
+  route(path:any){
+    this.router.navigate([`/main/${path}`])
   }
 }
