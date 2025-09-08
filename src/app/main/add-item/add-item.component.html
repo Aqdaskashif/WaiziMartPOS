@@ -105,4 +105,15 @@
 
         </div>
     </div>
-    <video id="video" width="100%" height="300" autoplay></video>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get("code");
+
+        // Send result back to opener (your Angular app)
+        if (window.opener) {
+            window.opener.postMessage({ scannedCode: code }, "*");
+            window.close();
+        } else {
+            document.body.innerText = "Scanned: " + code;
+        }
+    </script>

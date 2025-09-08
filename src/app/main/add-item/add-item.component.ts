@@ -42,11 +42,12 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
       this.currentDate = new Date();
     }, 1000);
     this.getDB()
-    this.route.queryParams
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe((params:any) => {
-      alert(JSON.stringify(params))
-    })
+    window.addEventListener('message', (event) => {
+      if (event.data?.scannedCode) {
+        this.product.barcode = event.data.scannedCode;
+      }
+    });
+  
   }
   category: any[] = []
   async getDB() {
@@ -93,14 +94,10 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
 
 
 
-  async openScanner() {
-    const callbackUrl = encodeURIComponent(window.location.origin + this.router.url + '?code={CODE}');
+  openScanner(): void {
+    const callbackUrl = encodeURIComponent(window.location.origin + '/scanner-callback?code={CODE}');
     const intentUrl = `intent://scan/?ret=${callbackUrl}#Intent;scheme=zxing;package=com.google.zxing.client.android;end`;
-    window.location.href = intentUrl
-    console.log(callbackUrl);
-    console.log(intentUrl);
-    
-    
+    window.open(intentUrl, "_blank"); // open scanner in new tab
   }
 
   stopScan() {
