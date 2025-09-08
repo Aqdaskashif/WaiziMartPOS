@@ -45,7 +45,7 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
     this.route.queryParams
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe((params:any) => {
-      alert(params)
+      alert(JSON.stringify(params))
     })
   }
   category: any[] = []
