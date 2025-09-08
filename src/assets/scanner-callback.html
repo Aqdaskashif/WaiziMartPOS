@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scanner Callback</title>
+</head>
+<body>
+<script>
+  // Get scanned value from query string
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+
+  // Send result back to opener (Angular app)
+  if (window.opener) {
+    window.opener.postMessage({ scannedCode: code }, "*");
+    window.close();
+  } else {
+    document.body.innerText = "Scanned: " + code;
+  }
+</script>
+</body>
+</html>

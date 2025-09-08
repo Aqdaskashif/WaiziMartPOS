@@ -95,9 +95,14 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
 
 
   openScanner(): void {
-    const callbackUrl = encodeURIComponent(window.location.origin + '/scanner-callback?code={CODE}');
+    const callbackUrl = encodeURIComponent(
+      window.location.origin + '/assets/scanner-callback.html?code={CODE}'
+    );
+
     const intentUrl = `intent://scan/?ret=${callbackUrl}#Intent;scheme=zxing;package=com.google.zxing.client.android;end`;
-    window.open(intentUrl, "_blank"); // open scanner in new tab
+
+    // Open ZXing app via Intent
+    window.open(intentUrl, '_blank');
   }
 
   stopScan() {
