@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ProductService } from '../../../assets/product.service';
 import { BrowserMultiFormatReader, IScannerControls } from '@zxing/browser';
+import { Router } from '@angular/router';
 
 export interface UserData {
   barcode: string;
@@ -20,7 +21,7 @@ export interface UserData {
   styleUrl: './add-item.component.css'
 })
 export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private router: Router) { }
   private codeReader = new BrowserMultiFormatReader();
   private controls: IScannerControls | null = null;
 
@@ -87,38 +88,12 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
 
 
   async openScanner() {
-    try {
-      const devices = await BrowserMultiFormatReader.listVideoInputDevices();
-
-      if (devices.length === 0) {
-        this.scanResult = 'No camera found';
-        return;
-      }
-
-      const backCamera = devices.find(d => /back|rear|environment/i.test(d.label));
-      const selectedDeviceId = backCamera ? backCamera.deviceId : devices[0].deviceId;
-
-      this.controls = await this.codeReader.decodeFromVideoDevice(
-        selectedDeviceId,
-        'video',
-        (result, error) => {
-          if (result) {
-            this.scanResult = result.getText();
-
-            if (this.controls && this.scanResult) {
-              this.product.barcode = this.scanResult
-              this.controls.stop();
-              this.controls = null;
-            }
-
-          }
-        }
-      );
-
-
-    } catch (err) {
-      this.scanResult = 'Camera error: ' + (err as any).message;
-    }
+    const callbackUrl = encodeURIComponent(window.location.origin + this.router.url + '?code={CODE}');
+    const intentUrl = `intent://scan/?ret=${callbackUrl}#Intent;scheme=zxing;package=com.google.zxing.client.android;end`;
+    console.log(callbackUrl);
+    console.log(intentUrl);
+    
+    
   }
 
   stopScan() {
