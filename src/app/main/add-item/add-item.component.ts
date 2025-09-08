@@ -4,7 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ProductService } from '../../../assets/product.service';
 import { BrowserMultiFormatReader, IScannerControls } from '@zxing/browser';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 export interface UserData {
   barcode: string;
@@ -21,7 +22,7 @@ export interface UserData {
   styleUrl: './add-item.component.css'
 })
 export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
-  constructor(private productService: ProductService, private router: Router) { }
+  constructor(private productService: ProductService, private router: Router,private route: ActivatedRoute) { }
   private codeReader = new BrowserMultiFormatReader();
   private controls: IScannerControls | null = null;
 
@@ -35,12 +36,17 @@ export class AddItemComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort | any;
   currentDate: Date = new Date();
   private timer: any;
-
+  unsubscribe$ = new Subject<void>()
   ngOnInit() {
     this.timer = setInterval(() => {
       this.currentDate = new Date();
     }, 1000);
     this.getDB()
+    this.route.queryParams
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((params:any) => {
+      alert(params)
+    })
   }
   category: any[] = []
   async getDB() {
